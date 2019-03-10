@@ -1,5 +1,3 @@
-// Corresponds to https://github.com/hastic/hastic-server/blob/master/server/src/models/analytic_unit.ts
-
 import { AnalyticService } from '../services/analytic_service'
 
 import {
@@ -29,6 +27,7 @@ import { Emitter } from 'grafana/app/core/utils/emitter';
 
 import _ from 'lodash';
 import * as tinycolor from 'tinycolor2';
+
 
 export class AnalyticController {
 
@@ -214,10 +213,6 @@ export class AnalyticController {
     } else {
       this._analyticUnitsSet.byId(id).labeledColor = value;
     }
-  }
-
-  fetchAnalyticUnitsStatuses() {
-    this.analyticUnits.forEach(a => this._runStatusWaiter(a));
   }
 
   async fetchAnalyticUnitsSegments(from: number, to: number): Promise<void[]> {
@@ -412,6 +407,10 @@ export class AnalyticController {
 
   public get conditions() {
     return _.values(Condition);
+  }
+
+  runStatusWaiters() {
+    this.analyticUnits.forEach(a => this._runStatusWaiter(a));
   }
 
   private async _runStatusWaiter(analyticUnit: AnalyticUnit) {

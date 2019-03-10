@@ -1,3 +1,5 @@
+// Corresponds to https://github.com/hastic/hastic-server/blob/master/server/src/models/analytic_unit.ts
+
 import { SegmentsSet } from './segment_set';
 import { SegmentArray } from './segment_array';
 import { Segment, SegmentId } from './segment';

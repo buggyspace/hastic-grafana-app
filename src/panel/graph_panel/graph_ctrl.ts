@@ -309,7 +309,7 @@ class GraphCtrl extends MetricsPanelCtrl {
     }
 
     this.analyticsController = new AnalyticController(this.panel, this.events, this.analyticService);
-    this.analyticsController.fetchAnalyticUnitsStatuses();
+    this.analyticsController.runStatusWaiters();
 
     this._updatePanelInfo();
     this.analyticsController.updateServerInfo();

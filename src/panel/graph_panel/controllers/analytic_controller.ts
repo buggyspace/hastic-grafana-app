@@ -31,7 +31,7 @@ import * as tinycolor from 'tinycolor2';
 
 export class AnalyticController {
 
-  private _analyticUnitsSet: AnalyticUnitsSet;
+  private _analyticUnitsSet?: AnalyticUnitsSet;
   private _selectedAnalyticUnitId: AnalyticUnitId = null;
 
   private _labelingDataAddedSegments: SegmentsSet<AnalyticSegment>;
@@ -52,14 +52,14 @@ export class AnalyticController {
     private _emitter: Emitter,
     private _analyticService?: AnalyticService,
   ) {
-    if(_panelObject.analyticUnits === undefined) {
-      _panelObject.analyticUnits = _panelObject.anomalyTypes || [];
-    }
     this._labelingDataAddedSegments = new SegmentArray<AnalyticSegment>();
     this._labelingDataRemovedSegments = new SegmentArray<AnalyticSegment>();
-    this._analyticUnitsSet = new AnalyticUnitsSet(this._panelObject.analyticUnits);
     this._thresholds = [];
     this.updateThresholds();
+  }
+
+  private _rebuildUnitsSet(analyticUnits: any[]) {
+    this._analyticUnitsSet = new AnalyticUnitsSet(analyticUnits);
   }
 
   get helpSectionText() { return text; }
@@ -376,7 +376,10 @@ export class AnalyticController {
     if(this._analyticService === undefined) {
       return;
     }
-    const ids = _.map(this._panelObject.analyticUnits, (analyticUnit: any) => analyticUnit.id);
+    if(this._analyticUnitsSet === undefined) {
+      throw new Error('Can`t update thresholds when this._analyticUnitsSet is empty');
+    }
+    const ids = this._analyticUnitsSet.items.map(a => a.id);
     const thresholds = await this._analyticService.getThresholds(ids);
     this._thresholds = thresholds;
   }

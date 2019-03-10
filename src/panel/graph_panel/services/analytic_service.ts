@@ -26,6 +26,9 @@ export class AnalyticService {
   }
 
   async getThresholds(ids: AnalyticUnitId[]) {
+    if(ids.length === 0) {
+      return [];
+    }
     const resp = await this.get('/threshold', { ids: ids.join(',') });
     if(resp === undefined) {
       return [];

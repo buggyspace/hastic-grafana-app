@@ -109,7 +109,7 @@ export class AnalyticUnit {
     this._segmentSet.setSegments(value.getSegments());
   }
 
-  get status() { return this._status; }
+  get status(): string { return this._status; }
   set status(value) {
     if(
       value !== '404' &&
@@ -126,7 +126,7 @@ export class AnalyticUnit {
   get error() { return this._error; }
   set error(value) { this._error = value; }
 
-  get isActiveStatus() {
+  get isActiveStatus(): boolean {
     switch(this.status) {
       case '404':
       case 'READY':
@@ -154,22 +154,22 @@ export class AnalyticUnitsSet {
     this._rebuildIndex();
   }
 
-  get items() { return this._items; }
+  get items(): AnalyticUnit[] { return this._items; }
 
-  addItem(item: AnalyticUnit) {
+  addItem(item: AnalyticUnit): void {
     this._panelObject.push(item.panelObject);
     this._mapIdIndex[item.id] = this._items.length;
     this._items.push(item);
   }
 
-  removeItem(id: AnalyticUnitId) {
+  removeItem(id: AnalyticUnitId): void {
     var index = this._mapIdIndex[id];
     this._panelObject.splice(index, 1);
     this._items.splice(index, 1);
     this._rebuildIndex();
   }
 
-  _rebuildIndex() {
+  _rebuildIndex(): void {
     this._items.forEach((a, i) => {
       this._mapIdIndex[a.id] = i;
     });
